@@ -1,5 +1,5 @@
 import * as React from "react"
-import { graphql } from "gatsby"
+import { graphql, Link } from "gatsby"
 import { StaticImage } from "gatsby-plugin-image"
 import Layout from "../components/layout"
 import Seo from "../components/seo"
@@ -20,7 +20,8 @@ import * as styles from "../components/index.module.css"
 // ]
 
 
-const utmParameters = `?utm_source=starter&utm_medium=start-page&utm_campaign=default-starter`
+// const utmParameters = `?utm_source=starter&utm_medium=start-page&utm_campaign=default-starter`
+
 
 const IndexPage = ({ data }) => (
   <Layout>
@@ -45,8 +46,13 @@ const IndexPage = ({ data }) => (
         >
           Amazing Pandas Eating Things
         </h1>
-        <h4>{data.allMarkdownRemark.totalCount} Posts</h4>
-        {data.allMarkdownRemark.edges.map(({ node }) => (
+
+
+        
+          <h4>{data.allMarkdownRemark.totalCount} Posts</h4>
+          
+          {data.allMarkdownRemark.edges.map(({ node }) => (
+          <Link to={`/detail?id=`+node.id}>
           <div key={node.id}>
             <h3
               style={{
@@ -64,7 +70,9 @@ const IndexPage = ({ data }) => (
             </h3>
             <p>{node.excerpt}</p>
           </div>
+          </Link>
         ))}
+          
 
 
 

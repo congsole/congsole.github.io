@@ -15,6 +15,12 @@ module.exports = {
     siteUrl: `https://gatsbystarterdefaultsource.gatsbyjs.io/`,
   },
   plugins: [
+    {
+      resolve: 'gatsby-plugin-apollo',
+      options: {
+        uri: 'https://example.com/graphql'
+      }
+    },
     `gatsby-transformer-remark`,
     `gatsby-plugin-image`,
     {
@@ -42,3 +48,4 @@ module.exports = {
     },
   ],
 }
+
