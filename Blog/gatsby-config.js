@@ -7,6 +7,38 @@
 /**
  * @type {import('gatsby').GatsbyConfig}
  */
+
+
+const path = require(`path`)
+
+exports.createPages = async ({ graphql, actions }) => {
+  const { createPage } = actions
+  const result = await graphql(`
+    query {
+      allMarkdownRemark {
+        edges {
+          node {
+            id
+          }
+        }
+      }
+    }
+  `)
+
+  result.data.allMarkdownRemark.edges.forEach(({ node }) => {
+    createPage({
+      path: node.id,
+      component: path.resolve(`./src/pages/detail.js`),
+      context: {
+        // Data passed to context is available
+        // in page queries as GraphQL variables.
+        id: node.id,
+      },
+    })
+  })
+}
+
+
 module.exports = {
   siteMetadata: {
     title: `Congsole's Blog !!`,
@@ -30,6 +62,7 @@ module.exports = {
         path: `${__dirname}/src/`,
       },
     },
+    `gatsby-transformer-remark`,
     `gatsby-transformer-sharp`,
     `gatsby-plugin-sharp`,
     {
@@ -48,4 +81,3 @@ module.exports = {
     },
   ],
 }
-

@@ -1,48 +1,52 @@
 import * as React from "react"
 import Layout from "../components/layout"
+import PropTypes from "prop-types"
 import withLocation from "../components/withLocation"
-import { graphql, useStaticQuery } from "gatsby"
-import { useQuery, gql } from "@apollo/client"
+import { graphql } from "gatsby"
 
-const GET_MARKDOWN_REMARK = gql`
-  query GetMarkdownRemark($id: String) {
-    markdownRemark(id: {eq: $id}) {
+
+const UseQueryParamExample = ({ search, data }) => {
+
+    console.log(search);
+    const id = search;
+    const post = data.markdownRemark;
+
+    return (
+    <Layout>
+
+          <div key={post.id}>
+            <h1
+              style={{
+                marginBottom: `5px`,
+              }}
+            >
+              {post.frontmatter.title}
+              <span
+                style={{
+                  color: `#bbb`
+                }}
+              >
+                — {post.frontmatter.date}
+              </span>
+            </h1>
+            <div dangerouslySetInnerHTML={{ __html: post.html }} />
+          </div>
+
+    </Layout>
+    );
+  };
+
+  
+  export default withLocation(UseQueryParamExample);
+  export const query = graphql`
+  query($id : String ) {
+    markdownRemark(id: {eq: $id }) {
+      html
       id
-      excerpt
       frontmatter {
         title
         date
       }
-      html
     }
   }
 `
-
-const UseQueryParamExample = ({ search }) => {
-  // withLocation HOC로부터 search 값을 받음
-  const id = search;
-
-  // useQuery 훅을 사용하여 GraphQL 쿼리 실행
-  const { loading, error, data } = useQuery(GET_MARKDOWN_REMARK, {
-    variables: { id: id }
-  })
-
-  if (loading) return <p>Loading...</p>
-  if (error) return <p>Error: {error.message}</p>
-
-  return (
-    <Layout>
-      <div key={data.markdownRemark.id}>
-        <h3 style={{ marginBottom: `5px` }}>
-          {data.markdownRemark.frontmatter.title}{" "}
-          <span style={{ color: `#bbb` }}>
-            — {data.markdownRemark.frontmatter.date}
-          </span>
-        </h3>
-        <p>{data.markdownRemark.excerpt}</p>
-      </div>
-    </Layout>
-  )
-}
-
-export default withLocation(UseQueryParamExample)

@@ -26,18 +26,6 @@ import * as styles from "../components/index.module.css"
 const IndexPage = ({ data }) => (
   <Layout>
     <div className={styles.textCenter}>
-      <StaticImage
-        src="../images/example.png"
-        loading="eager"
-        width={64}
-        quality={95}
-        formats={["auto", "webp", "avif"]}
-        alt=""
-        style={{ marginBottom: `var(--space-3)` }}
-      />
-      <h1>
-        Welcome to <b>Gatsby!!!</b>
-      </h1>
       <h1
           style={{
             display: `inline-block`,
@@ -45,11 +33,11 @@ const IndexPage = ({ data }) => (
           }}
         >
           Amazing Pandas Eating Things
-        </h1>
+      </h1>
 
 
-        
-          <h4>{data.allMarkdownRemark.totalCount} Posts</h4>
+     
+      <h4>{data.allMarkdownRemark.totalCount} Posts</h4>
           
           {data.allMarkdownRemark.edges.map(({ node }) => (
           <Link to={`/detail?id=`+node.id}>
